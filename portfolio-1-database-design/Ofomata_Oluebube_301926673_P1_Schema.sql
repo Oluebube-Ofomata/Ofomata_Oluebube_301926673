@@ -8,7 +8,7 @@ CREATE TABLE portfolio."book" (
   "isbn" text NOT NULL,
   "title" text NOT NULL,
   "author" text NOT NULL,
-  "publication_year" bigint,
+  "publication_year" integer,
   CONSTRAINT "pk_book" PRIMARY KEY ("book_id"),
   CONSTRAINT "uq_book_0" UNIQUE ("isbn")
 );
