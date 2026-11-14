@@ -1,20 +1,20 @@
 # Portfolio 4 — NoSQL and Advanced Data Models
 
-I used MongoDB collection library_events for book_registered and student_registered events. These are fictional event examples based on loan, book, student, librarian.
+I used the MongoDB collection library_events to store four fictional loan-related event documents. Each document is anchored to a loan record and embeds snapshots of its related book, student and, when present, librarian. The eventType values book_registered and student_registered are illustrative labels in this generated test data; they do not represent actual registration events. The source.entity is loan, so these labels should not be interpreted as verified business events.
 
 ## Document model
 
 | Field | Meaning |
 | --- | --- |
 | _id | Unique string event ID |
-| eventType | One of the two selected case event labels |
+| eventType | Illustrative test label; not a claim that a book or student registration occurred |
 | occurredAt | Native BSON Date; sample timestamps are in 2030 |
 | source | Original entity, primary key and saved JSON snapshot |
 | embedded | Linked record snapshots read with the event |
 | references | Keys for linked sources kept outside the embedded snapshots |
 | details | Event metadata whose fields vary |
 
-Related book, student, librarian details are stored as snapshots with the event. This makes an event readable in one document. It duplicates some information, and later SQL changes do not automatically update the snapshots. PostgreSQL continues to enforce the relational rules.
+Related book, student and librarian details are stored as snapshots with the loan-anchored document. This makes the document readable in one place. It duplicates some information, and later SQL changes do not automatically update the snapshots. The two eventType labels are used only to demonstrate filtering and grouping; because each source is a loan, they are not evidence of real book or student registration. PostgreSQL continues to enforce the relational rules.
 
 ## Example document
 
@@ -241,7 +241,7 @@ db.getCollection("library_events").aggregate([{"$group":{"_id":"$eventType", "do
 
 MongoDB inserted 4 documents. An invalid date type was rejected with code 121 and a repeated event ID with 11000. The collection still contained 4 valid documents. The compound eventType/occurredAt index supports those access fields; this exercise does not measure its speed.
 
-The details field can vary across event types, while the common fields have a validator. Events can be added as separate documents rather than growing one large history record.
+The details field can vary across the illustrative event labels, while the common fields have a validator. Events can be added as separate documents rather than growing one large history record. In a production system, eventType should be renamed to a genuine loan lifecycle event and emitted only when that action actually occurs.
 
 ## Run the script
 
