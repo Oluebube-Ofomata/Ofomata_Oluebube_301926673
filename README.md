@@ -1,7 +1,13 @@
-# Oluebube Ofomata — MIT 8103
+# University Library Management System
 
-Student ID: 301926673
+Oluebube Ofomata · Student ID 301926673
 
-University Library Management System: A database system designed to manage books, students, librarians, borrowing and returning activities, book availability, and overdue fines in a university library. The system will support book registration, student registration, borrowing records, returns, book searches, and fine management.
+The portfolio uses fictional records for University Library Management System.
 
-The portfolio is being generated. Completed stages will appear in the commit history.
+- [Portfolio 1](portfolio-1-database-design/)
+- [Portfolio 2](portfolio-2-query-optimisation/)
+- [Portfolio 3](portfolio-3-transactions-concurrency/)
+- [Portfolio 4](portfolio-4-nosql/)
+- [Portfolio 5](portfolio-5-distributed-cloud/)
+
+[Final summary](Ofomata_Oluebube_301926673_FinalSummary.md) · [PDF](Ofomata_Oluebube_301926673_FinalSummary.pdf)
