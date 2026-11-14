@@ -76,7 +76,7 @@ My case study records book, student, librarian, loan.
 - Every loan refers to an existing book.
 - Every loan refers to an existing student.
 - A loan's optional librarian reference, when present, refers to an existing librarian.
-- The due date is after the borrowing date, and a return date, when present, is not before the borrowing date.
+- The due date and any recorded return date must both be strictly after the borrowing date.
 - An assessed fine amount cannot be negative.
 - At most one loan per book may have no return date; enforce uniqueness on book_id only for loans whose returned_on is null.
 
