@@ -4,11 +4,11 @@
 
 ## Case study
 
-My case study is University Library Management System. I designed the database for library staff registering books and students, recording loans and returns, and managing fines. and students searching the catalog and reviewing their loans and fines., with separate tables named book, student, librarian and loan. It supports these operations: register books and students; search books by title or ISBN; record book loans and returns; identify overdue loans and assess fines.
+My case study is the University Library Management System. I designed the database to support library staff in registering books and students, recording loans and returns, and managing fines. Students can search the catalogue and review their loans and fines. The relational design uses four tables: book, student, librarian and loan. The implemented operations are registering books and students, searching books by title or ISBN, recording book loans and returns, identifying overdue loans, and recording assessed fines in the loan table. Reservations are outside the scope of this implementation.
 
 ## Portfolio 1: Database Design and Modelling
 
-I organised the relational design into 4 tables. Primary keys identify records, foreign keys preserve the links, and checks enforce the stated business rules. At most one loan per book may have no return date; enforce uniqueness on book_id only for loans whose returned_on is null. The normalisation examples show the sample data at 1NF, 2NF and 3NF. All 14 deliberately invalid inserts were rejected without changing the valid sample rows.
+I organised the relational design into four tables. Primary keys identify records, foreign keys preserve the links, and checks enforce the stated business rules. At most one loan per book may have no return date; a partial unique index enforces uniqueness on book_id only for loans whose returned_on is null. The normalisation examples show the sample data at 1NF, 2NF and 3NF. All 14 deliberately invalid inserts were rejected without changing the valid sample rows.
 
 ![University Library Management System ER diagram](images/Ofomata_Oluebube_301926673_ERDiagram.png)
 
@@ -18,7 +18,7 @@ Figure 1. Tables, keys and relationships. PK: primary key; FK: foreign key; UK: 
 
 ## Portfolio 2: Query Processing and Optimisation
 
-I ran four SQL queries against the sample records. The join returned 2 rows and included student201@example.edu with 9780000000101. For the index comparison, I used 20,000 separate performance rows. The median lookup time changed from 0.853 ms to 0.189 ms. Both phases returned the same records. The measured plan used the new index. These timings apply to this lookup and environment.
+I ran four SQL queries against the sample records. The join returned two rows and included student201@example.edu with ISBN 9780000000101. For the index comparison, I used a separate performance table containing 20,000 generated rows. The median lookup time changed from 0.853 ms to 0.189 ms. Both phases returned the same records. The measured plan used the new index. These timings apply to this lookup and test environment.
 
 ## Portfolio 3: Transactions and Concurrency
 
@@ -26,7 +26,7 @@ I used a temporary counter on loan to test COMMIT, ROLLBACK and READ COMMITTED i
 
 ## Portfolio 4: NoSQL and Advanced Data Models
 
-I used library_events for the case's event documents. MongoDB inserted 4 sample events and returned the expected results for 4 queries. Validation rejected an invalid date type and a duplicate event ID. Embedded snapshots keep related details with an event, while the details field can differ by event type. These are fictional events; PostgreSQL continues to enforce its relational rules.
+I used the MongoDB collection library_events to demonstrate event-document storage, embedded snapshots, flexible event details, queries and validation. MongoDB inserted four fictional sample documents and returned results for four queries. Validation rejected an invalid date type and a duplicate event ID. Embedded snapshots keep related details with an event, while the details field can differ by document. PostgreSQL continues to enforce the relational rules. The event labels and their relationship to the loan source are explained in the Portfolio 4 documentation.
 
 ## Repository and evidence
 
@@ -34,20 +34,19 @@ https://github.com/Oluebube-Ofomata/Ofomata_Oluebube_301926673
 
 The portfolio folders contain the SQL and JavaScript, explanations, query plans, result tables and screenshots.
 
-
 <!-- PAGE BREAK -->
 
 ## Portfolio 5: Distributed and Cloud Database Exercise
 
-I proposed three MongoDB replica members across separate failure zones. The discussion covers primary elections, majority acknowledgement, secondary lag and sharding trade-offs for library_events. Replication supports availability, while backups address recovery. PostgreSQL needs its own availability plan. This is the permitted discussion option; no live replica set or failover test was deployed.
+I proposed three MongoDB replica members across separate failure zones. The discussion covers primary elections, majority acknowledgement, secondary lag and sharding trade-offs for library_events. Replication supports availability, while backups address recovery. PostgreSQL needs its own availability plan. This is the discussion option; no live replica set or failover test was deployed.
 
 ## Individual reflection
 
-I kept book, student, librarian, loan in separate tables so their details could be maintained without repeating them in every related record. At most one loan per book may have no return date; enforce uniqueness on book_id only for loans whose returned_on is null. The constraint tests check this alongside the required values and record links. One issue illustrated by the two-session exercise is that both sessions can read the same value before either update is committed. Locking the row before reading preserves both increments. The index comparison also shows why I need to check the execution plan as well as the final answer: the same result can require different amounts of database work.
+I kept book, student, librarian and loan in separate tables so their details could be maintained without repeating them in every related record. At most one loan per book may have no return date; a partial unique index enforces uniqueness on book_id only for loans whose returned_on is null. The constraint tests check this alongside the required values and record links. One issue illustrated by the two-session exercise is that both sessions can read the same value before either update is committed. Locking the row before reading preserves both increments. The index comparison also shows why I need to check the execution plan as well as the final answer: the same result can require different amounts of database work.
 
 ## AI-use declaration
 
-I used GitHub Copilot and the portfolio generator to help prepare the database model, scripts and explanations. The generator ran the PostgreSQL and MongoDB exercises, checked their outputs and captured the result images.  I remain responsible for checking and explaining the submitted work.
+I used GitHub Copilot and the portfolio generator to help prepare the database model, scripts and explanations. The generator ran the PostgreSQL and MongoDB exercises, checked their outputs and captured the result images. I remain responsible for checking and explaining the submitted work.
 
 ## References
 
@@ -59,4 +58,3 @@ I used GitHub Copilot and the portfolio generator to help prepare the database m
 - [MongoDB: replication](https://www.mongodb.com/docs/manual/replication/)
 - [MongoDB: sharding](https://www.mongodb.com/docs/manual/sharding/)
 - [Mermaid: ER diagrams](https://mermaid.js.org/syntax/entityRelationshipDiagram.html)
-
